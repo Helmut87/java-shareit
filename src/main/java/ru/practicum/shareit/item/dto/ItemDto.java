@@ -2,9 +2,14 @@ package ru.practicum.shareit.item.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import ru.practicum.shareit.booking.dto.BookingDto;
 
-@Data
+import java.util.List;
+
+@Getter
+@Setter
 public class ItemDto {
     private Long id;
 
@@ -16,4 +21,9 @@ public class ItemDto {
 
     @NotNull(message = "Статус доступности должен быть указан")
     private Boolean available;
+
+    private BookingDto lastBooking;
+    private BookingDto nextBooking;
+
+    private List<CommentDto> comments;
 }
