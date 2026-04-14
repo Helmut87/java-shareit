@@ -1,9 +1,6 @@
 package ru.practicum.shareit.user;
 
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.shareit.exception.ValidationException;
 import ru.practicum.shareit.user.dto.UserDto;
@@ -13,7 +10,6 @@ import java.util.List;
 @RestController
 @RequestMapping(path = "/users")
 @RequiredArgsConstructor
-@Validated
 public class UserController {
 
     private final UserService userService;
@@ -24,7 +20,7 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    public UserDto findById(@PathVariable @Positive(message = "ID пользователя должен быть положительным") Long id) {
+    public UserDto findById(@PathVariable Long id) {
         if (id == null) {
             throw new ValidationException("ID пользователя не может быть null");
         }
@@ -32,15 +28,12 @@ public class UserController {
     }
 
     @PostMapping
-    public UserDto create(@Valid @RequestBody UserDto userDto) {
-        if (userDto.getEmail() == null || userDto.getEmail().isBlank()) {
-            throw new ValidationException("Email не может быть пустым");
-        }
+    public UserDto create(@RequestBody UserDto userDto) {
         return userService.create(userDto);
     }
 
     @PatchMapping("/{id}")
-    public UserDto update(@PathVariable @Positive(message = "ID пользователя должен быть положительным") Long id,
+    public UserDto update(@PathVariable Long id,
                           @RequestBody UserDto userDto) {
         if (id == null) {
             throw new ValidationException("ID пользователя не может быть null");
@@ -49,7 +42,7 @@ public class UserController {
     }
 
     @DeleteMapping("/{id}")
-    public void deleteById(@PathVariable @Positive(message = "ID пользователя должен быть положительным") Long id) {
+    public void deleteById(@PathVariable Long id) {
         if (id == null) {
             throw new ValidationException("ID пользователя не может быть null");
         }

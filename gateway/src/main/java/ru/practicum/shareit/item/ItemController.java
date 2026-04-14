@@ -1,6 +1,7 @@
 package ru.practicum.shareit.item;
 
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -41,10 +42,7 @@ public class ItemController {
     }
 
     @GetMapping("/search")
-    public ResponseEntity<Object> search(@RequestParam(required = false) String text) {
-        if (text == null || text.isBlank()) {
-            return client.get("/items/search");
-        }
+    public ResponseEntity<Object> search(@RequestParam @NotBlank(message = "Текст для поиска не может быть пустым") String text) {
         return client.get("/items/search?text=" + text);
     }
 
